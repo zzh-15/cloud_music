@@ -129,9 +129,9 @@ export default {
                 "lyrics-content"
               )[0];
               let line = document.querySelector(`div[line='${this.line}']`);
-              if(lyrics && line) {
-              lyricsContent.style.top =
-                lyrics.offsetHeight / 2 - line.offsetTop + "px";
+              if (lyrics && line) {
+                lyricsContent.style.top =
+                  lyrics.offsetHeight / 2 - line.offsetTop + "px";
               }
             }
           });
@@ -306,6 +306,43 @@ export default {
       .then(response => {
         this.data = response.data;
         this.audio = document.querySelector("#myAudio");
+        this.audio.addEventListener(
+          "ended",
+          () => {
+            let playingList = JSON.parse(this.$Storage.getItem("playingList"));
+            if (this.$store.state.playModel == "list_cycle") {
+              for (let i = 0; i <= playingList.length; i++) {
+                if (this.$store.state.currentMusic.id == playingList[i].id) {
+                  let id;
+                  if (i == playingList.length - 1) {
+                    id = playingList[0].id;
+                  } else {
+                    id = playingList[i + 1].id;
+                  }
+                  this.changeMusic(id);
+                  break;
+                }
+              }
+            } else if (this.$store.state.playModel == "list_order") {
+              for (let i = 0; i <= playingList.length; i++) {
+                if (this.$store.state.currentMusic.id == playingList[i].id) {
+                  if (i < playingList.length - 1) {
+                    this.changeMusic(playingList[i + 1].id);
+                    break;
+                  }
+                }
+              }
+            } else if (this.$store.state.playModel == "list_random") {
+              let r = Math.floor(Math.random() * playingList.length);
+              this.changeMusic(playingList[r].id);
+            } else {
+              this.audio.currentTime = 0;
+              if (this.lyric) this.lyric.seek(0);
+              this.audio.play();
+            }
+          },
+          false
+        );
 
         if (this.$route.query.id != this.$store.state.currentMusic.id) {
           response.data.songs[0].url = `http://music.163.com/song/media/outer/url?id=${
@@ -333,43 +370,6 @@ export default {
             );
             this.playTime.point =
               this.audio.currentTime / this.audio.duration * 100;
-            if (
-              parseInt(this.audio.duration) == parseInt(this.audio.currentTime)
-            ) {
-              let playingList = JSON.parse(
-                this.$Storage.getItem("playingList")
-              );
-              if (this.$store.state.playModel == "list_cycle") {
-                for (let i = 0; i <= playingList.length; i++) {
-                  if (this.$store.state.currentMusic.id == playingList[i].id) {
-                    let id;
-                    if (i == playingList.length - 1) {
-                      id = playingList[0].id;
-                    } else {
-                      id = playingList[i + 1].id;
-                    }
-                    this.changeMusic(id);
-                    break;
-                  }
-                }
-              } else if (this.$store.state.playModel == "list_order") {
-                for (let i = 0; i <= playingList.length; i++) {
-                  if (this.$store.state.currentMusic.id == playingList[i].id) {
-                    if (i < playingList.length - 1) {
-                      this.changeMusic(playingList[i + 1].id);
-                      break;
-                    }
-                  }
-                }
-              } else if (this.$store.state.playModel == "list_random") {
-                let r = Math.floor(Math.random() * playingList.length);
-                this.changeMusic(playingList[r].id);
-              } else {
-                this.audio.currentTime = 0;
-                if (this.lyric) this.lyric.seek(0);
-                this.audio.play();
-              }
-            }
           }
         }, 500);
       })

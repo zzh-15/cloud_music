@@ -18,7 +18,7 @@
                     </svg>
                     <span>({{$store.state.currentMusicList.length}})</span>
                 </div>
-                <div class="clean" @click="cleanAll">
+                <div class="clean" @click.stop="cleanAll">
                     <svg class="song-model" aria-hidden="true">
                         <use xlink:href="#icon-lajitong"></use>
                     </svg>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="content">
-                <div class="item" v-for="item in $store.state.currentMusicList" :key="item.id" @click.stop="changeMusic(item.id)">
+                <div class="item" v-for="item in $store.state.currentMusicList" :key="item.id" @click="changeMusic(item.id)">
                     <div>
                         <svg class="yinliang" aria-hidden="true" v-if="item.id==$store.state.currentMusic.id">
                             <use xlink:href="#icon-yinliang"></use>
