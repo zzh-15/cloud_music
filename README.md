@@ -1,21 +1,4 @@
-# cloud_music
+#简介
+使用vue+vue-router+axios做的仿网易云音乐的app。
+Api方面使用了NeteaseCloudMusicApi，真的非常方便，感谢作者。
 
-> cloud music App
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
