@@ -85,7 +85,7 @@ export default {
     del(id) {
       this.$store.commit("deleteCurrentMusicList", id);
       if (id == this.$store.state.currentMusic.id) {
-        changeMusic(this.$store.state.currentMusicList[0].id);
+        this.changeMusic(this.$store.state.currentMusicList[0].id);
       }
     }
   },
