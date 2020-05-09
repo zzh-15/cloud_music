@@ -2,7 +2,7 @@
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide" v-for="item in imgs" :key="item.targetId">
-                <img :src="item.picUrl" alt="" class="swiper-img">
+                <img :src="item.imageUrl" alt="" class="swiper-img">
             </div>
         </div>
         <div class="swiper-pagination"></div>
